@@ -1,7 +1,7 @@
+import os
 from flask import Flask, render_template_string, request
 
 app = Flask(__name__)
-
 
 def get_color_name(hex_color):
     color_names = {
@@ -22,7 +22,6 @@ def get_color_name(hex_color):
         '#dc143c': 'قرمزي داكن'
     }
     return color_names.get(hex_color.lower(), 'لون غير معروف')
-
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -187,17 +186,20 @@ def index():
         <p>{{ result.ratio }}</p>
       </div>
       {% endif %}
-
+      
     </body>
     </html>
     """
-    return render_template_string(html, result=result, error=error,
-                                  red_input=red_input,
-                                  green_input=green_input,
-                                  blue_input=blue_input,
-                                  white_input=white_input,
+    return render_template_string(html, result=result, error=error, 
+                                  red_input=red_input, 
+                                  green_input=green_input, 
+                                  blue_input=blue_input, 
+                                  white_input=white_input, 
                                   manual_color_input=manual_color_input)
 
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    # الحصول على المنفذ من المتغير البيئة أو استخدام 5000 كمنفذ افتراضي
+    port = int(os.environ.get("PORT", 5000))
+    
+    # تشغيل التطبيق على جميع الواجهات وتحديد المنفذ
+    app.run(host="0.0.0.0", port=port, debug=True)
